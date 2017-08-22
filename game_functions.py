@@ -1,10 +1,8 @@
 import pygame
-import time
 import sys
-from food import Food
 
 
-def check_events(settings, screen, snake, clock, bg):
+def check_events(settings, screen, snake, food, clock, bg):
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w or event.key == pygame.K_UP:
@@ -16,7 +14,7 @@ def check_events(settings, screen, snake, clock, bg):
                     if snake.grow is False:
                         del snake.rect_tuple[-1]
                     else:
-                        snake.grow = True
+                        snake.grow = False
                     rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y - bg.s_width, bg.s_width, bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
@@ -27,7 +25,7 @@ def check_events(settings, screen, snake, clock, bg):
                     if snake.grow is False:
                         del snake.rect_tuple[-1]
                     else:
-                        snake.grow = True
+                        snake.grow = False
                     rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y + bg.s_width, bg.s_width, bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
@@ -38,7 +36,7 @@ def check_events(settings, screen, snake, clock, bg):
                     if snake.grow is False:
                         del snake.rect_tuple[-1]
                     else:
-                        snake.grow = True
+                        snake.grow = False
                     rect = pygame.Rect(snake.rect_tuple[0].x + bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
@@ -49,65 +47,40 @@ def check_events(settings, screen, snake, clock, bg):
                     if snake.grow is False:
                         del snake.rect_tuple[-1]
                     else:
-                        snake.grow = True
+                        snake.grow = False
                     rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width,bg.s_width)
                     snake.rect_tuple.insert(0, rect)
-            elif event.key == pygame.K_f:
-                settings.food_position = True
             elif event.key == pygame.K_q:
+                snake.__init__(settings, screen, bg)
+                food.update()
                 settings.running = True
-                settings.heart = 3
-                snake.zero(screen)
-                clock.tick()
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_f:
-                settings.food_position = False
         elif event.type == pygame.QUIT:
             sys.exit()
 
 
-def creat_food(settings, screen, snake, food, background):
+def collision(settings, screen, snake, food, background):
+    '''碰撞检测'''
+
+    # 吃到食物
     if food.rect.x == snake.rect_tuple[0].x and food.rect.y == snake.rect_tuple[0].y:
         food.update()
         snake.grow = True
 
+    # 碰到身体
+    for rect in snake.rect_tuple[3:]:
+        if snake.rect_tuple[0].x == rect.x and snake.rect_tuple[0].y == rect.y:
+            settings.running = False
+            return False
 
-def update_food(settings, screen, snakes, foods):
-    collisions = pygame.sprite.groupcollide(snakes, foods, False, True)
-    if collisions != {}:
-        settings.score += 100
-        snakes.sprites()[0].length += 20
-
-    if len(foods) < 1:
-        creat_food(settings, screen, foods)
+    return True
 
 
-def Eat_food(settings, screen, snake, food):
-    if food.rect.x == snake.rect_tuple[0].x and food.rect.y == snake.rect_tuple[0].y:
-        print('EAT!!!!!!!!!!!!!!!!!')
-
-
-def update_screen(settings, screen, snake, foods, clock):
-    screen.fill(settings.bg_color)
-
-    # 游戏帧率控制
-    time_passed = clock.tick()
-    time_passed_seconds = time_passed / 1000.0
-    settings.speed = time_passed_seconds * 150  # 速度核心参数
-
-    foods.update()
-    snake_move(snake, settings, screen, clock)
+def update_screen(settings, screen, snake, food, clock, bg):
+    screen.fill((230, 230, 230))
+    bg.update()
+    food.blitme()
     snake.blitme()
-
-    heart_rect = settings.heart_image.get_rect()
-    for i in range(settings.heart):
-        screen.blit(settings.heart_image, (screen.get_rect().right -
-                                           (heart_rect.width + 10) * (i + 1) - 10, 10))
-
-    if settings.food_position:
-        foods.update()
-
-    pygame.display.flip()
+    clock.tick(15)
 
 
 def snake_move(settings, screen, snake, clock, bg):
@@ -115,7 +88,7 @@ def snake_move(settings, screen, snake, clock, bg):
         if snake.grow is False:
             del snake.rect_tuple[-1]
         else:
-            snake.grow = True
+            snake.grow = False
         rect = pygame.Rect(snake.rect_tuple[0].x + bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
@@ -123,7 +96,7 @@ def snake_move(settings, screen, snake, clock, bg):
         if snake.grow is False:
             del snake.rect_tuple[-1]
         else:
-            snake.grow = True
+            snake.grow = False
         rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y - bg.s_width, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
@@ -132,7 +105,7 @@ def snake_move(settings, screen, snake, clock, bg):
         if snake.grow is False:
             del snake.rect_tuple[-1]
         else:
-            snake.grow = True
+            snake.grow = False
         rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y + bg.s_width, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
@@ -141,12 +114,12 @@ def snake_move(settings, screen, snake, clock, bg):
         if snake.grow is False:
             del snake.rect_tuple[-1]
         else:
-            snake.grow = True
+            snake.grow = False
         rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
     else:
-        pass
+        settings.running = False
 
 
 
@@ -164,4 +137,7 @@ def snake_move(settings, screen, snake, clock, bg):
             rect = pygame.Rect(self.rect_tuple[-1].x, self.rect_tuple[-1].y + 30, 25, 25)
             self.rect_tuple.append(rect)
     '''
+
+
+
 

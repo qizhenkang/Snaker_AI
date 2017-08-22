@@ -23,24 +23,23 @@ snake = Snake(settings, screen, bg)
 
 clock = pygame.time.Clock()
 
-count = 0
+gameover_blit = True
 
 food = Food(settings, screen, bg)
 food.update()
 
 while True:
-    gf.check_events(settings, screen, snake, clock, bg)
+    gf.check_events(settings, screen, snake, food, clock, bg)
 
-    screen.fill((230, 230, 230))
-    bg.update()
-    gf.snake_move(settings, screen, snake, clock, bg)
-    gf.creat_food(settings, screen, snake, food, bg)
-    food.blitme()
-    snake.blitme()
+    if settings.running:
+        if gf.collision(settings, screen, snake, food, bg):
+            gf.snake_move(settings, screen, snake, clock, bg)
+        gf.update_screen(settings, screen, snake, food, clock, bg)
 
-    clock.tick(10)
+        pygame.display.flip()
+    elif gameover_blit:
+        gameover_blit = False
+        screen.blit(settings.gameover, (70, 0))
+        pygame.display.flip()
 
-
-
-    pygame.display.flip()
 

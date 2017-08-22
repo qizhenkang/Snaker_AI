@@ -16,7 +16,6 @@ class Food():
         self.color = 230, 0, 0
 
     def update(self):
-        print(self.rect.x, self.rect.y)
         self.rect.x = random.choice(self.background.line_x)
         self.rect.y = random.choice(self.background.line_y)
 
