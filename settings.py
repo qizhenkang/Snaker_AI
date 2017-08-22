@@ -8,6 +8,7 @@ class Settings:
         self.size = 800, 600
         self.bg_color = 230, 230, 230
         self.line_color = 100, 255, 200
+        self.s_width = 20
         self.score = 0
         self.count = 0
 

@@ -13,7 +13,10 @@ def check_events(settings, screen, snake, clock, bg):
                     snake.mv_right = False
                     snake.mv_left = False
 
-                    del snake.rect_tuple[-1]
+                    if snake.grow is False:
+                        del snake.rect_tuple[-1]
+                    else:
+                        snake.grow = True
                     rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y - bg.s_width, bg.s_width, bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
@@ -21,7 +24,10 @@ def check_events(settings, screen, snake, clock, bg):
                     snake.mv_down = True
                     snake.mv_right = False
                     snake.mv_left = False
-                    del snake.rect_tuple[-1]
+                    if snake.grow is False:
+                        del snake.rect_tuple[-1]
+                    else:
+                        snake.grow = True
                     rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y + bg.s_width, bg.s_width, bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
@@ -29,7 +35,10 @@ def check_events(settings, screen, snake, clock, bg):
                     snake.mv_right = True
                     snake.mv_up = False
                     snake.mv_down = False
-                    del snake.rect_tuple[-1]
+                    if snake.grow is False:
+                        del snake.rect_tuple[-1]
+                    else:
+                        snake.grow = True
                     rect = pygame.Rect(snake.rect_tuple[0].x + bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
@@ -37,7 +46,10 @@ def check_events(settings, screen, snake, clock, bg):
                     snake.mv_left = True
                     snake.mv_up = False
                     snake.mv_down = False
-                    del snake.rect_tuple[-1]
+                    if snake.grow is False:
+                        del snake.rect_tuple[-1]
+                    else:
+                        snake.grow = True
                     rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width,bg.s_width)
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_f:
@@ -54,8 +66,10 @@ def check_events(settings, screen, snake, clock, bg):
             sys.exit()
 
 
-def creat_food(settings, screen, foods):
-    pass
+def creat_food(settings, screen, snake, food, background):
+    if food.rect.x == snake.rect_tuple[0].x and food.rect.y == snake.rect_tuple[0].y:
+        food.update()
+        snake.grow = True
 
 
 def update_food(settings, screen, snakes, foods):
@@ -66,6 +80,11 @@ def update_food(settings, screen, snakes, foods):
 
     if len(foods) < 1:
         creat_food(settings, screen, foods)
+
+
+def Eat_food(settings, screen, snake, food):
+    if food.rect.x == snake.rect_tuple[0].x and food.rect.y == snake.rect_tuple[0].y:
+        print('EAT!!!!!!!!!!!!!!!!!')
 
 
 def update_screen(settings, screen, snake, foods, clock):
@@ -93,24 +112,36 @@ def update_screen(settings, screen, snake, foods, clock):
 
 def snake_move(settings, screen, snake, clock, bg):
     if snake.mv_right is True and snake.rect_tuple[0].right < snake.screen_rect.right:
-        del snake.rect_tuple[-1]
+        if snake.grow is False:
+            del snake.rect_tuple[-1]
+        else:
+            snake.grow = True
         rect = pygame.Rect(snake.rect_tuple[0].x + bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
     elif snake.mv_up is True and snake.rect_tuple[0].y > 0:
-        del snake.rect_tuple[-1]
+        if snake.grow is False:
+            del snake.rect_tuple[-1]
+        else:
+            snake.grow = True
         rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y - bg.s_width, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
 
     elif snake.mv_down is True and snake.rect_tuple[0].bottom < snake.screen_rect.bottom:
-        del snake.rect_tuple[-1]
+        if snake.grow is False:
+            del snake.rect_tuple[-1]
+        else:
+            snake.grow = True
         rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y + bg.s_width, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1
 
     elif snake.mv_left is True and snake.rect_tuple[0].x > 0:
-        del snake.rect_tuple[-1]
+        if snake.grow is False:
+            del snake.rect_tuple[-1]
+        else:
+            snake.grow = True
         rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
         snake.rect_tuple.insert(0, rect)
         settings.count += 1

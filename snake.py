@@ -1,7 +1,7 @@
 import pygame
 
 
-class Snake():
+class Snake:
 
     def __init__(self, settings, screen, background):
         self.length = 5
@@ -16,6 +16,8 @@ class Snake():
         self.mv_left = False
         self.mv_up = False
         self.mv_down = False
+
+        self.grow = False
 
         self.rect_tuple = []
 
