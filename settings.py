@@ -14,7 +14,7 @@ class Settings:
 
         self.running = True
         self.heart = 3
-        self.food_position = False
+        self.gameover_blit = True
 
         self.heart_image = pygame.image.load('.\\timg.jpg')
         self.background = pygame.image.load('.\\background.jpg')

@@ -2,7 +2,7 @@ import pygame
 import sys
 
 
-def check_events(settings, screen, snake, food, clock, bg):
+def check_events(settings, screen, snake, food, bg):
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w or event.key == pygame.K_UP:
@@ -52,8 +52,9 @@ def check_events(settings, screen, snake, food, clock, bg):
                     snake.rect_tuple.insert(0, rect)
             elif event.key == pygame.K_q:
                 snake.__init__(settings, screen, bg)
-                food.update()
+                food.update(snake)
                 settings.running = True
+                settings.gameover_blit = True
         elif event.type == pygame.QUIT:
             sys.exit()
 
@@ -63,7 +64,7 @@ def collision(settings, screen, snake, food, background):
 
     # 吃到食物
     if food.rect.x == snake.rect_tuple[0].x and food.rect.y == snake.rect_tuple[0].y:
-        food.update()
+        food.update(snake)
         snake.grow = True
 
     # 碰到身体
@@ -80,10 +81,10 @@ def update_screen(settings, screen, snake, food, clock, bg):
     bg.update()
     food.blitme()
     snake.blitme()
-    clock.tick(15)
+    clock.tick(12)
 
 
-def snake_move(settings, screen, snake, clock, bg):
+def snake_move(settings, screen, snake, bg):
     if snake.mv_right is True and snake.rect_tuple[0].right < snake.screen_rect.right:
         if snake.grow is False:
             del snake.rect_tuple[-1]
@@ -121,23 +122,5 @@ def snake_move(settings, screen, snake, clock, bg):
     else:
         settings.running = False
 
-
-
-
-    '''
-    for i in range(self.length):
-        if i == 0:
-            rect_first = pygame.Rect(self.firstx, self.firsty, 25, 25)
-            self.rect_tuple.append(rect_first)
-
-        if self.mv_right:
-            rect = pygame.Rect(self.rect_tuple[-1].x - 30, self.rect_tuple[-1].y, 25, 25)
-            self.rect_tuple.append(rect)
-        elif self.mv_up:
-            rect = pygame.Rect(self.rect_tuple[-1].x, self.rect_tuple[-1].y + 30, 25, 25)
-            self.rect_tuple.append(rect)
-    '''
-
-
-
-
+def AI_choice(settings, screen, snake, food, bg):
+    pass
