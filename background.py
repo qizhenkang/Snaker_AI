@@ -8,7 +8,7 @@ class Background:
         self.screen_rect = screen.get_rect()
         self.settings = settings
 
-        self.s_width = 20
+        self.s_width = settings.s_width
         self.line_x = []
         self.line_y = []
 

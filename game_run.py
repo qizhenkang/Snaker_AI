@@ -29,14 +29,26 @@ clock = pygame.time.Clock()
 
 while True:
     gf.check_events(settings, screen, snake, food, bg)
-
     if settings.running:
         gf.AI_choice(settings, screen, snake, food, bg)
-        if gf.collision(settings, screen, snake, food, bg):
+        if snake.rect_tuple[0].x > 0:
+            if gf.Turn_UP(settings, snake, bg):
+                gf.Turn_LEFT(settings, snake, bg)
+            else:
+                gf.Turn_LEFT(settings, snake, bg)
+        settings.collision = gf.collision(settings, screen, snake, food, bg)
+        if not settings.collision and settings.move:
             gf.snake_move(settings, screen, snake, bg)
-        gf.update_screen(settings, screen, snake, food, clock, bg)
 
+        settings.move = True
+
+        gf.update_screen(settings, screen, snake, food, clock, bg)
         pygame.display.flip()
+
+        gf.Eat_food(snake, food)
+
+
+
     elif settings.gameover_blit:
         settings.gameover_blit = False
         screen.blit(settings.gameover, (70, 0))

@@ -8,8 +8,8 @@ class Snake:
 
         self.screen = screen
         self.screen_rect = screen.get_rect()
-        self.firstx = self.screen_rect.centerx
-        self.firsty = self.screen_rect.centery
+        self.firstx = background.line_x[len(background.line_x)// 2]
+        self.firsty = background.line_y[len(background.line_y)// 2]
         self.bg = background
 
         self.mv_right = True
