@@ -16,6 +16,6 @@ class Settings:
         self.heart = 3
         self.gameover_blit = True
 
-        self.heart_image = pygame.image.load('.\\timg.jpg')
-        self.background = pygame.image.load('.\\background.jpg')
-        self.gameover = pygame.image.load('.\\gameover.png')
+        self.heart_image = pygame.image.load('.\\resources\\timg.jpg')
+        self.background = pygame.image.load('.\\resources\\background.jpg')
+        self.gameover = pygame.image.load('.\\resources\\gameover.png')

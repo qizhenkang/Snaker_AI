@@ -12,7 +12,7 @@ pygame.display.set_caption("贪吃蛇小作战")
 settings = Settings()
 screen = pygame.display.set_mode(settings.size)
 
-font = pygame.font.SysFont('yaheiconsolashybrid', 17)
+font = pygame.font.Font('.\\resources\\YaHeiConsolas.ttf', 17)
 Tip = font.render('If you want to try again, please press Q ~', True, (65, 105, 225))
 
 bg = Background(settings, screen)
