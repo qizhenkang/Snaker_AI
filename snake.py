@@ -4,7 +4,7 @@ import pygame
 class Snake:
 
     def __init__(self, settings, screen, background):
-        self.length = 50
+        self.length = 7
 
         self.screen = screen
         self.screen_rect = screen.get_rect()
