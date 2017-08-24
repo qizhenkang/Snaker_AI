@@ -50,6 +50,8 @@ def check_events(settings, screen, snake, food, bg):
                         snake.grow = False
                     rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width,bg.s_width)
                     snake.rect_tuple.insert(0, rect)
+            elif event.key == pygame.K_ESCAPE:
+                sys.exit()
             elif event.key == pygame.K_q:
                 snake.__init__(settings, screen, bg)
                 food.update(snake)
