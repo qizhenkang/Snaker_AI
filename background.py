@@ -17,13 +17,13 @@ class Background:
         for i in range(int(self.screen_rect.width / self.s_width)):
             x = (i + 1) * self.s_width
             self.line_x.append(x)
-            pygame.draw.line(self.screen, self.settings.line_color, (x, 0), (x, self.screen_rect.bottom), 2)
+            pygame.draw.line(self.screen, self.settings.line_color, (x, 0), (x, self.screen_rect.bottom), 1)
         self.line_x.pop()
         self.line_x.append(0)
 
         for j in range(int(self.screen_rect.height / self.s_width)):
             y = (j + 1) * self.s_width
             self.line_y.append(y)
-            pygame.draw.line(self.screen, self.settings.line_color, (0, y), (self.screen_rect.right, y), 2)
+            pygame.draw.line(self.screen, self.settings.line_color, (0, y), (self.screen_rect.right, y), 1)
         self.line_y.pop()
         self.line_x.append(0)
