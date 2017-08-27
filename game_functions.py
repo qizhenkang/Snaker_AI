@@ -101,34 +101,37 @@ def snake_move(settings, screen, snake, bg):
         else:
             settings.running = False
     else:
-        if snake.mv_right:
-            if snake.grow is False:
-                del snake.rect_tuple[-1]
-            else:
-                snake.grow = False
-            rect = pygame.Rect(snake.rect_tuple[0].x + bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
-            snake.rect_tuple.insert(0, rect)
-        elif snake.mv_left:
-            if snake.grow is False:
-                del snake.rect_tuple[-1]
-            else:
-                snake.grow = False
-            rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
-            snake.rect_tuple.insert(0, rect)
-        elif snake.mv_up:
-            if snake.grow is False:
-                del snake.rect_tuple[-1]
-            else:
-                snake.grow = False
-            rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y - bg.s_width, bg.s_width, bg.s_width)
-            snake.rect_tuple.insert(0, rect)
-        elif snake.mv_down:
-            if snake.grow is False:
-                del snake.rect_tuple[-1]
-            else:
-                snake.grow = False
-            rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y + bg.s_width, bg.s_width, bg.s_width)
-            snake.rect_tuple.insert(0, rect)
+        if snake.rect_tuple[0].right <= snake.screen_rect.right and snake.rect_tuple[0].bottom <= snake.screen_rect.bottom and snake.rect_tuple[0].y >= 0 or snake.rect_tuple[0].x >= 0:
+            if snake.mv_right:
+                if snake.grow is False:
+                    del snake.rect_tuple[-1]
+                else:
+                    snake.grow = False
+                rect = pygame.Rect(snake.rect_tuple[0].x + bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
+                snake.rect_tuple.insert(0, rect)
+            elif snake.mv_left:
+                if snake.grow is False:
+                    del snake.rect_tuple[-1]
+                else:
+                    snake.grow = False
+                rect = pygame.Rect(snake.rect_tuple[0].x - bg.s_width, snake.rect_tuple[0].y, bg.s_width, bg.s_width)
+                snake.rect_tuple.insert(0, rect)
+            elif snake.mv_up:
+                if snake.grow is False:
+                    del snake.rect_tuple[-1]
+                else:
+                    snake.grow = False
+                rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y - bg.s_width, bg.s_width, bg.s_width)
+                snake.rect_tuple.insert(0, rect)
+            elif snake.mv_down:
+                if snake.grow is False:
+                    del snake.rect_tuple[-1]
+                else:
+                    snake.grow = False
+                rect = pygame.Rect(snake.rect_tuple[0].x, snake.rect_tuple[0].y + bg.s_width, bg.s_width, bg.s_width)
+                snake.rect_tuple.insert(0, rect)
+        else:
+            settings.running = False
     settings.turn = False
 
 
@@ -142,13 +145,18 @@ def Turn_UP(settings, snake, bg):
         snake.mv_right = False
         snake.mv_left = False
         settings.turn = True
-
+        return True
+    else:
+        return False
 def Turn_DOWN(settings, snake, bg):
     if snake.mv_up is False:
         snake.mv_down = True
         snake.mv_right = False
         snake.mv_left = False
         settings.turn = True
+        return True
+    else:
+        return False
 
 def Turn_RIGHT(settings, snake, bg):
     if snake.mv_left is False:
@@ -156,6 +164,9 @@ def Turn_RIGHT(settings, snake, bg):
         snake.mv_up = False
         snake.mv_down = False
         settings.turn = True
+        return True
+    else:
+        return False
 
 def Turn_LEFT(settings, snake, bg):
     if snake.mv_right is False:
@@ -163,3 +174,6 @@ def Turn_LEFT(settings, snake, bg):
         snake.mv_up = False
         snake.mv_down = False
         settings.turn = True
+        return True
+    else:
+        return False

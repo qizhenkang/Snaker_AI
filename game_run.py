@@ -31,6 +31,9 @@ while True:
     gf.check_events(settings, screen, snake, food, bg)
     if settings.running:
         gf.AI_choice(settings, screen, snake, food, bg)
+        if snake.rect_tuple[0].x < food.rect.x:
+            if gf.Turn_UP(settings, snake, bg):
+                gf.Turn_RIGHT(settings, snake, bg)
         if not gf.collision(settings, screen, snake, food, bg):
             gf.snake_move(settings, screen, snake, bg)
             gf.Eat_food(snake, food)
